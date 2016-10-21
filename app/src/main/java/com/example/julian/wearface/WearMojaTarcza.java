@@ -343,7 +343,7 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
                 case TAP_TYPE_TAP:
                     // The user has completed the tap gesture.
                     // TODO: Add code to handle the tap gesture.
-                    Toast.makeText(getApplicationContext(), "Dotknięty ekran", Toast.LENGTH_SHORT)
+                    Toast.makeText(getApplicationContext(), R.string.message, Toast.LENGTH_SHORT)
                             .show();
                     break;
             }

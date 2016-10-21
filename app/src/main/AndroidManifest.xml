@@ -15,7 +15,7 @@
         android:theme="@android:style/Theme.DeviceDefault">
         <service
             android:name=".WearMojaTarcza"
-            android:label="MojaTarcza"
+            android:label="@string/my_analog_name"
             android:permission="android.permission.BIND_WALLPAPER">
             <meta-data
                 android:name="android.service.wallpaper"
