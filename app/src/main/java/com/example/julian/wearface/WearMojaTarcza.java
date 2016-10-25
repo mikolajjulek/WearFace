@@ -141,6 +141,7 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
             mBackgroundPaint = new Paint();
             mBackgroundPaint.setColor(Color.BLACK);
             mBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
+            mGrayBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg_gray);
 
             /* Set defaults for colors */
             mWatchHandColor = Color.WHITE;
@@ -355,9 +356,10 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
             long now = System.currentTimeMillis();
             mCalendar.setTimeInMillis(now);
 
-            if (mAmbient && (mLowBitAmbient || mBurnInProtection)) {
+           /* if (mAmbient && (mLowBitAmbient || mBurnInProtection)) {
                 canvas.drawColor(Color.BLACK);
-            } else if (mAmbient) {
+            } else if (mAmbient) {*/
+            if (mAmbient) {
                 canvas.drawBitmap(mGrayBackgroundBitmap, 0, 0, mBackgroundPaint);
             } else {
                 canvas.drawBitmap(mBackgroundBitmap, 0, 0, mBackgroundPaint);
