@@ -143,7 +143,7 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
                     .setShowSystemUiTime(false)
                     .setAcceptsTapEvents(true)
                     .build());
-            Resources resources = WearMojaTarcza.this.getResources();
+            //Resources resources = WearMojaTarcza.this.getResources();
 
             mBackgroundPaint = new Paint();
             mBackgroundPaint.setColor(Color.BLACK);
@@ -184,9 +184,7 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
             mTickAndCirclePaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
 
             mTextPaint = new Paint();
-            mTextPaint.setColor(resources.getColor(R.color.digital_text));
-            //mTextPaint.setTextSize(R.dimen.digital_text_size);
-            mTextPaint.setTextSize(30);
+            mTextPaint.setColor(mWatchHandColor);
             mTextPaint.setTextAlign(Paint.Align.CENTER);
             mTextPaint.setTypeface(NORMAL_TYPEFACE);
             mTextPaint.setAntiAlias(true);
@@ -261,7 +259,7 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
                 mMinutePaint.setColor(mWatchHandColor);
                 mSecondPaint.setColor(mWatchHandHighlightColor);
                 mTickAndCirclePaint.setColor(mWatchHandColor);
-                mTextPaint.setColor(Color.WHITE);
+                mTextPaint.setColor(mWatchHandColor);
 
                 mHourPaint.setAntiAlias(true);
                 mMinutePaint.setAntiAlias(true);
@@ -400,6 +398,7 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
                 canvas.drawLine(mCenterX + innerX, mCenterY + innerY,
                         mCenterX + outerX, mCenterY + outerY, mTickAndCirclePaint);
                 /* DAY_OF_MONTH */
+                mTextPaint.setTextSize(mCenterY / 6);
                 String text = String.format("%d", mCalendar.get(Calendar.DAY_OF_MONTH));
                 canvas.drawText(text, mCenterX, mCenterY * 2 - mCenterY / 4, mTextPaint);
             }
