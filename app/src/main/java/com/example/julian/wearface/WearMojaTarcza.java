@@ -88,8 +88,8 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
 
     private class Engine extends CanvasWatchFaceService.Engine {
         private static final float HOUR_STROKE_WIDTH = 5f;
-        private static final float MINUTE_STROKE_WIDTH = 3f;
-        private static final float SECOND_TICK_STROKE_WIDTH = 2f;
+        private static final float MINUTE_STROKE_WIDTH = 5f;
+        private static final float SECOND_TICK_STROKE_WIDTH = 3f;
 
         private static final float CENTER_GAP_AND_CIRCLE_RADIUS = 4f;
 
@@ -145,8 +145,8 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
 
             /* Set defaults for colors */
             mWatchHandColor = Color.WHITE;
-            mWatchHandHighlightColor = Color.RED;
-            mWatchHandShadowColor = Color.BLACK;
+            mWatchHandHighlightColor = Color.YELLOW;
+            mWatchHandShadowColor = Color.GRAY;
 
             mHourPaint = new Paint();
             mHourPaint.setColor(mWatchHandColor);
@@ -176,7 +176,7 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
             mTickAndCirclePaint.setStyle(Paint.Style.STROKE);
             mTickAndCirclePaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
 
-            /* Extract colors from background image to improve watchface style. */
+            /* Extract colors from background image to improve watchface style.
             Palette.from(mBackgroundBitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(Palette palette) {
@@ -187,7 +187,7 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
                         updateWatchHandStyle();
                     }
                 }
-            });
+            });*/
 
             mCalendar = Calendar.getInstance();
         }
@@ -370,7 +370,7 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
              * cases where you want to allow users to select their own photos, this dynamically
              * creates them on top of the photo.
              */
-            float innerTickRadius = mCenterX - 10;
+            float innerTickRadius = mCenterX - 20;
             float outerTickRadius = mCenterX;
             for (int tickIndex = 0; tickIndex < 12; tickIndex++) {
                 float tickRot = (float) (tickIndex * Math.PI * 2 / 12);
