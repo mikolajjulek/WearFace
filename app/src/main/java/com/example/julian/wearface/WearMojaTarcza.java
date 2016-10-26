@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -28,6 +29,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -43,12 +45,15 @@ import java.util.Calendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+
 /**
  * Analog watch face with a ticking second hand. In ambient mode, the second hand isn't
  * shown. On devices with low-bit ambient mode, the hands are drawn without anti-aliasing in ambient
  * mode. The watch face is drawn with less contrast in mute mode.
  */
 public class WearMojaTarcza extends CanvasWatchFaceService {
+    private static final Typeface NORMAL_TYPEFACE =
+            Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
 
     /*
      * Update rate in milliseconds for interactive mode. We update once a second to advance the
@@ -87,7 +92,7 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
     }
 
     private class Engine extends CanvasWatchFaceService.Engine {
-        private static final float HOUR_STROKE_WIDTH = 5f;
+        private static final float HOUR_STROKE_WIDTH = 7f;
         private static final float MINUTE_STROKE_WIDTH = 5f;
         private static final float SECOND_TICK_STROKE_WIDTH = 3f;
 
@@ -121,6 +126,7 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
         private Paint mSecondPaint;
         private Paint mTickAndCirclePaint;
         private Paint mBackgroundPaint;
+        private Paint mTextPaint; //day of month
         private Bitmap mBackgroundBitmap;
         private Bitmap mGrayBackgroundBitmap;
         private boolean mAmbient;
@@ -137,6 +143,7 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
                     .setShowSystemUiTime(false)
                     .setAcceptsTapEvents(true)
                     .build());
+            Resources resources = WearMojaTarcza.this.getResources();
 
             mBackgroundPaint = new Paint();
             mBackgroundPaint.setColor(Color.BLACK);
@@ -175,6 +182,14 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
             mTickAndCirclePaint.setAntiAlias(true);
             mTickAndCirclePaint.setStyle(Paint.Style.STROKE);
             mTickAndCirclePaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
+
+            mTextPaint = new Paint();
+            mTextPaint.setColor(resources.getColor(R.color.digital_text));
+            //mTextPaint.setTextSize(R.dimen.digital_text_size);
+            mTextPaint.setTextSize(30);
+            mTextPaint.setTextAlign(Paint.Align.CENTER);
+            mTextPaint.setTypeface(NORMAL_TYPEFACE);
+            mTextPaint.setAntiAlias(true);
 
             /* Extract colors from background image to improve watchface style.
             Palette.from(mBackgroundBitmap).generate(new Palette.PaletteAsyncListener() {
@@ -227,12 +242,14 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
                 mHourPaint.setColor(Color.WHITE);
                 mMinutePaint.setColor(Color.WHITE);
                 mSecondPaint.setColor(Color.WHITE);
-                mTickAndCirclePaint.setColor(Color.WHITE);
+                mTickAndCirclePaint.setColor(Color.GRAY);
+                mTextPaint.setColor(Color.GRAY);
 
                 mHourPaint.setAntiAlias(false);
                 mMinutePaint.setAntiAlias(false);
                 mSecondPaint.setAntiAlias(false);
                 mTickAndCirclePaint.setAntiAlias(false);
+                mTextPaint.setAntiAlias(false);
 
                 mHourPaint.clearShadowLayer();
                 mMinutePaint.clearShadowLayer();
@@ -244,11 +261,13 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
                 mMinutePaint.setColor(mWatchHandColor);
                 mSecondPaint.setColor(mWatchHandHighlightColor);
                 mTickAndCirclePaint.setColor(mWatchHandColor);
+                mTextPaint.setColor(Color.WHITE);
 
                 mHourPaint.setAntiAlias(true);
                 mMinutePaint.setAntiAlias(true);
                 mSecondPaint.setAntiAlias(true);
                 mTickAndCirclePaint.setAntiAlias(true);
+                mTextPaint.setAntiAlias(true);
 
                 mHourPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
                 mMinutePaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
@@ -380,6 +399,9 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
                 float outerY = (float) -Math.cos(tickRot) * outerTickRadius;
                 canvas.drawLine(mCenterX + innerX, mCenterY + innerY,
                         mCenterX + outerX, mCenterY + outerY, mTickAndCirclePaint);
+                /* DAY_OF_MONTH */
+                String text = String.format("%d", mCalendar.get(Calendar.DAY_OF_MONTH));
+                canvas.drawText(text, mCenterX, mCenterY * 2 - mCenterY / 4, mTextPaint);
             }
 
             /*

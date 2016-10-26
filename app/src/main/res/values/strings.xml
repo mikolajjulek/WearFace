@@ -2,4 +2,6 @@
     <string name="app_name">WearFace</string>
     <string name="message">Dotknięty ekran</string>
     <string name="my_analog_name">MojaTarcza</string>
+    <color name="digital_text">#ffffff</color>
+    <dimen name="digital_text_size">30dp</dimen>
 </resources>
