@@ -43,6 +43,7 @@ import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.text.DateFormat;
@@ -401,9 +402,9 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
             }
                 /* DAY_OF_MONTH DAY_OF_WEEK*/
             mTextPaint.setTextSize(mCenterY / 6);
-            String dmies = String.format("%d", mCalendar.get(Calendar.DAY_OF_MONTH));
+            String dmies = String.format(Locale.getDefault(),"%d", mCalendar.get(Calendar.DAY_OF_MONTH));
             Date date = Calendar.getInstance().getTime();
-            DateFormat sdf = new SimpleDateFormat("E");
+            DateFormat sdf = new SimpleDateFormat("E", Locale.getDefault());
             String dtyg = sdf.format(date);
             canvas.drawText(dmies + " " + dtyg, mCenterX, mCenterY * 2 - mCenterY / 3, mTextPaint);
 
