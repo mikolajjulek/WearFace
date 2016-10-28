@@ -20,7 +20,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -41,9 +40,12 @@ import android.view.SurfaceHolder;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+import java.text.DateFormat;
 
 
 /**
@@ -143,7 +145,6 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
                     .setShowSystemUiTime(false)
                     .setAcceptsTapEvents(true)
                     .build());
-            //Resources resources = WearMojaTarcza.this.getResources();
 
             mBackgroundPaint = new Paint();
             mBackgroundPaint.setColor(Color.BLACK);
@@ -397,11 +398,14 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
                 float outerY = (float) -Math.cos(tickRot) * outerTickRadius;
                 canvas.drawLine(mCenterX + innerX, mCenterY + innerY,
                         mCenterX + outerX, mCenterY + outerY, mTickAndCirclePaint);
-                /* DAY_OF_MONTH */
-                mTextPaint.setTextSize(mCenterY / 6);
-                String text = String.format("%d", mCalendar.get(Calendar.DAY_OF_MONTH));
-                canvas.drawText(text, mCenterX, mCenterY * 2 - mCenterY / 4, mTextPaint);
             }
+                /* DAY_OF_MONTH DAY_OF_WEEK*/
+            mTextPaint.setTextSize(mCenterY / 6);
+            String dmies = String.format("%d", mCalendar.get(Calendar.DAY_OF_MONTH));
+            Date date = Calendar.getInstance().getTime();
+            DateFormat sdf = new SimpleDateFormat("E");
+            String dtyg = sdf.format(date);
+            canvas.drawText(dmies + " " + dtyg, mCenterX, mCenterY * 2 - mCenterY / 3, mTextPaint);
 
             /*
              * These calculations reflect the rotation in degrees per unit of time, e.g.,
