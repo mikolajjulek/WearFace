@@ -400,7 +400,9 @@ public class WearMojaTarcza extends CanvasWatchFaceService {
                 canvas.drawLine(mCenterX + innerX, mCenterY + innerY,
                         mCenterX + outerX, mCenterY + outerY, mTickAndCirclePaint);
             }
-                /* DAY_OF_MONTH DAY_OF_WEEK*/
+            /*
+             * DAY_OF_MONTH & DAY_OF_WEEK
+             */
             mTextPaint.setTextSize(mCenterY / 6);
             String dmies = String.format(Locale.getDefault(),"%d", mCalendar.get(Calendar.DAY_OF_MONTH));
             Date date = Calendar.getInstance().getTime();
